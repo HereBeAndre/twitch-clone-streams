@@ -1,7 +1,24 @@
 import { useEffect, useState } from "react";
 
 const GoogleAuth = () => {
-  const [isSignedIn, setIsSignedIn] = useState(null);
+  const [auth, setAuth] = useState(null);
+  const [isUserSignedIn, setIsUserSignedIn] = useState(null);
+
+  // Callback to listen for Sign In && Sign Out user
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onAuthChange = () => {
+    setIsUserSignedIn(auth.isSignedIn.get());
+  };
+
+  const onSignIn = () => {
+    setAuth(auth.signIn());
+  };
+
+  const onSignOut = () => {
+    setAuth(auth.signOut());
+  };
+
+  console.log(auth, isUserSignedIn);
 
   useEffect(() => {
     // Load Google API library
@@ -13,18 +30,30 @@ const GoogleAuth = () => {
             "322059734492-bj8ljm3aboh7echc6kcvgep2uknhnai9.apps.googleusercontent.com",
           scope: "email",
         })
-        .then(() => {
-          const auth = window.gapi.auth2.getAuthInstance();
-          setIsSignedIn(auth.isSignedIn.get());
+        .then(async () => {
+          const authInstance = await window.gapi.auth2.getAuthInstance();
+          await setAuth(authInstance);
+          setIsUserSignedIn(auth.isSignedIn.get());
+          auth.isSignedIn.listen(onAuthChange);
         });
     });
-  }, []);
+  }, [auth?.isSignedIn, onAuthChange]);
 
   const renderAuthButton = () => {
-    if (isSignedIn === null) {
-      return <div>Don't know if we're signed in</div>;
+    if (isUserSignedIn === null) {
+      return;
     }
-    return isSignedIn ? <div>I'm signed in</div> : <div>Not signed in</div>;
+    return isUserSignedIn ? (
+      <button className="ui red google button" onClick={() => onSignOut()}>
+        <i className="ui google icon"></i>
+        Sign Out
+      </button>
+    ) : (
+      <button className="ui red google button" onClick={() => onSignIn()}>
+        <i className="ui google icon"></i>
+        Sign In
+      </button>
+    );
   };
 
   return <div>{renderAuthButton()}</div>;
