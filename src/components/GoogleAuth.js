@@ -26,8 +26,7 @@ const GoogleAuth = () => {
       // Initialize the library - init returns a Promise
       window.gapi.client
         .init({
-          clientId:
-            "322059734492-bj8ljm3aboh7echc6kcvgep2uknhnai9.apps.googleusercontent.com",
+          clientId: "placeholder",
           scope: "email",
         })
         .then(async () => {
@@ -44,12 +43,12 @@ const GoogleAuth = () => {
       return;
     }
     return isUserSignedIn ? (
-      <button className="ui red google button" onClick={() => onSignOut()}>
+      <button className="ui red google button" onClick={onSignOut}>
         <i className="ui google icon"></i>
         Sign Out
       </button>
     ) : (
-      <button className="ui red google button" onClick={() => onSignIn()}>
+      <button className="ui red google button" onClick={onSignIn}>
         <i className="ui google icon"></i>
         Sign In
       </button>
