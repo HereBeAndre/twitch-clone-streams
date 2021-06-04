@@ -1,8 +1,9 @@
 import { Field, reduxForm } from "redux-form";
 
-const StreamCreate = () => {
+// props come from redux-form
+const StreamCreate = (props) => {
   const renderInput = (formProps) => {
-    console.log(formProps);
+    // console.log(formProps);
     return (
       <div className="field">
         {/* Gets passed from lines below (Field) */}
@@ -17,15 +18,23 @@ const StreamCreate = () => {
     );
   };
 
+  console.log("PROPS", props);
+
+  const onSubmit = (formValues) => {
+    // redux-form takes care of e.preventDefault()
+    console.log("ONSUBMIT", formValues);
+  };
+
   return (
     <div>
-      <form className="ui form">
+      <form className="ui form" onSubmit={props.handleSubmit(onSubmit)}>
         <Field name="title" component={renderInput} label="Enter title" />
         <Field
           name="description"
           component={renderInput}
           label="Enter description"
         />
+        <button className="ui button primary">Submit</button>
       </form>
     </div>
   );
