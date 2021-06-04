@@ -40,6 +40,18 @@ const StreamCreate = (props) => {
   );
 };
 
+const validate = (formValues) => {
+  const errors = {};
+
+  if (!formValues.title) {
+    errors.title = "Please input a valid title";
+  }
+  if (!formValues.description) {
+    errors.description = "Please input a valid description";
+  }
+  return errors;
+};
+
 export default reduxForm({
   form: "streamCreate",
 })(StreamCreate);
