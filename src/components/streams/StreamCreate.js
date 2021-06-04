@@ -1,25 +1,47 @@
 import { Field, reduxForm } from "redux-form";
 
-// props come from redux-form
-const StreamCreate = (props) => {
-  const renderInput = (formProps) => {
-    // console.log(formProps);
+const renderError = ({ touched, error }) => {
+  if (touched && error) {
     return (
-      <div className="field">
-        {/* Gets passed from lines below (Field) */}
-        <label>{formProps.label}</label>
-        <input
-          {...formProps.input} // TAKES ALL PROPERTIES OF input OBJECT AND ASSIGNS THEM TO <input /> AS props
-          // EQUIVALENT TO THIS:
-          // onChange={formProps.input.onChange}
-          // value={formProps.input.value}
-        />
+      <div className="ui error message">
+        <div className="header">{error}</div>
       </div>
     );
-  };
+  }
+};
 
-  console.log("PROPS", props);
+const validateForm = (formValues) => {
+  const errors = {};
+  // errors work due to same 'title' and 'description' of the Fields above
+  if (!formValues.title) {
+    errors.title = "Please input a valid title";
+  }
+  if (!formValues.description) {
+    errors.description = "Please input a valid description";
+  }
+  return errors;
+};
 
+const renderInput = (formProps) => {
+  console.log("meta", formProps.meta);
+  return (
+    <div className="field">
+      {/* Gets passed from lines below (Field) */}
+      <label>{formProps.label}</label>
+      <input
+        {...formProps.input} // TAKES ALL PROPERTIES OF input OBJECT AND ASSIGNS THEM TO <input /> AS props
+        // EQUIVALENT TO THIS:
+        // onChange={formProps.input.onChange}
+        // value={formProps.input.value}
+        autoComplete="off"
+      />
+      {renderError(formProps.meta)}
+    </div>
+  );
+};
+
+// props come from redux-form
+const StreamCreate = (props) => {
   const onSubmit = (formValues) => {
     // redux-form takes care of e.preventDefault()
     console.log("ONSUBMIT", formValues);
@@ -40,18 +62,7 @@ const StreamCreate = (props) => {
   );
 };
 
-const validate = (formValues) => {
-  const errors = {};
-
-  if (!formValues.title) {
-    errors.title = "Please input a valid title";
-  }
-  if (!formValues.description) {
-    errors.description = "Please input a valid description";
-  }
-  return errors;
-};
-
 export default reduxForm({
   form: "streamCreate",
+  validate: validateForm,
 })(StreamCreate);
