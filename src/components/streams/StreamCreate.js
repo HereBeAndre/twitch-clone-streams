@@ -4,20 +4,28 @@ const StreamCreate = () => {
   const renderInput = (formProps) => {
     console.log(formProps);
     return (
-      <input
-        {...formProps.input} // TAKES ALL PROPERTIES OF input OBJECT AND ASSIGNS THEM TO <input /> AS props
-        // EQUIVALENT TO THIS:
-        // onChange={formProps.input.onChange}
-        // value={formProps.input.value}
-      />
+      <div className="field">
+        {/* Gets passed from lines below (Field) */}
+        <label>{formProps.label}</label>
+        <input
+          {...formProps.input} // TAKES ALL PROPERTIES OF input OBJECT AND ASSIGNS THEM TO <input /> AS props
+          // EQUIVALENT TO THIS:
+          // onChange={formProps.input.onChange}
+          // value={formProps.input.value}
+        />
+      </div>
     );
   };
 
   return (
     <div>
-      <form>
-        <Field name="title" component={renderInput} />
-        <Field name="description" component={renderInput} />
+      <form className="ui form">
+        <Field name="title" component={renderInput} label="Enter title" />
+        <Field
+          name="description"
+          component={renderInput}
+          label="Enter description"
+        />
       </form>
     </div>
   );
