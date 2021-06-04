@@ -24,8 +24,11 @@ const validateForm = (formValues) => {
 
 const renderInput = (formProps) => {
   console.log("meta", formProps.meta);
+  const className = `field ${
+    formProps.meta.touched && formProps.meta.touched && "error"
+  }`;
   return (
-    <div className="field">
+    <div className={className}>
       {/* Gets passed from lines below (Field) */}
       <label>{formProps.label}</label>
       <input
@@ -49,7 +52,7 @@ const StreamCreate = (props) => {
 
   return (
     <div>
-      <form className="ui form" onSubmit={props.handleSubmit(onSubmit)}>
+      <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
         <Field name="title" component={renderInput} label="Enter title" />
         <Field
           name="description"
