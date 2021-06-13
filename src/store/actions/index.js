@@ -11,5 +11,26 @@ export const setUserSignOut = () => ({
 });
 
 export const createStream = (formValues) => async (dispatch) => {
-  streams.post("/streams", formValues);
+  const res = await streams.post("/streams", formValues);
+  dispatch({ type: types.SET_NEW_STREAM, payload: res.data });
+};
+
+export const getSetAllStreams = () => async (dispatch) => {
+  const res = await streams.get("streams");
+  dispatch({ type: types.GET_SET_ALL_STREAMS, payload: res.data });
+};
+
+export const getStream = (streamId) => async (dispatch) => {
+  const res = await streams.get(`/streams/${streamId}`);
+  dispatch({ type: types.GET_STREAM, payload: res.data });
+};
+
+export const setUpdateStream = (streamId, formValues) => async (dispatch) => {
+  const res = await streams.put(`/streams/${streamId}`, formValues);
+  dispatch({ type: types.SET_UPDATE_STREAM, payload: res.data });
+};
+
+export const setDeleteStream = (streamId) => async (dispatch) => {
+  await streams.delete(`/streams/${streamId}`);
+  dispatch({ type: types.SET_DELETE_STREAM, payload: streamId });
 };
