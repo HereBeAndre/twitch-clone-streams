@@ -2,16 +2,28 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getSetAllStreams } from "../../store/actions";
 
-const StreamList = ({ streams }) => {
+const StreamList = ({ streams, currentUserId }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSetAllStreams());
   }, []);
 
+  const renderAdminButtons = (stream) => {
+    if (currentUserId === stream.userId) {
+      return (
+        <div className="right floated content">
+          <button className="ui button primary">Edit</button>
+          <button className="ui button negative">Delete</button>
+        </div>
+      );
+    }
+  };
+
   const renderStreamList = () => {
     return streams.map((stream) => {
       return (
         <div className="item" key={stream.id}>
+          {renderAdminButtons(stream)}
           <i className="large middle aligned icon camera" />
           <div className="content">
             {stream.title}
@@ -31,7 +43,10 @@ const StreamList = ({ streams }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { streams: Object.values(state.streams) };
+  return {
+    streams: Object.values(state.streams),
+    currentUserId: state.auth.userId,
+  };
 };
 
 export default connect(mapStateToProps, { getSetAllStreams })(StreamList);
