@@ -2,14 +2,36 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getSetAllStreams } from "../../store/actions";
 
-const StreamList = (props) => {
-  console.log(props);
+const StreamList = ({ streams }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSetAllStreams());
   }, []);
 
-  return <div>StreamList</div>;
+  const renderStreamList = () => {
+    return streams.map((stream) => {
+      return (
+        <div className="item" key={stream.id}>
+          <i className="large middle aligned icon camera" />
+          <div className="content">
+            {stream.title}
+            <div className="description">{stream.description}</div>
+          </div>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <div>
+      <h2>Streams</h2>
+      <div className="ui celled list">{renderStreamList()}</div>
+    </div>
+  );
 };
 
-export default connect(null, { getSetAllStreams })(StreamList);
+const mapStateToProps = (state) => {
+  return { streams: Object.values(state.streams) };
+};
+
+export default connect(mapStateToProps, { getSetAllStreams })(StreamList);
