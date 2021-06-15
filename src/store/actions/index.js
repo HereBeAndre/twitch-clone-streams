@@ -17,7 +17,7 @@ export const createStream = (formValues) => async (dispatch) => {
 
 export const getSetAllStreams = () => async (dispatch) => {
   const res = await streams.get("streams");
-  dispatch({ type: types.GET_SET_ALL_STREAMS, payload: res.data });
+  dispatch({ type: types.GET_ALL_STREAMS, payload: res.data });
 };
 
 export const getStream = (streamId) => async (dispatch) => {
