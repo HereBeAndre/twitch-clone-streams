@@ -1,5 +1,6 @@
 import streams from "../../api/streams";
 import types from "./types_d";
+import history from "../../history";
 
 export const setUserSignIn = (userId) => ({
   type: types.SET_USER_SIGN_IN,
@@ -15,7 +16,8 @@ export const createStream = (formValues) => async (dispatch, getState) => {
 
   const res = await streams.post("/streams", { ...formValues, userId });
   dispatch({ type: types.SET_NEW_STREAM, payload: res.data });
-  // Redirect user to list of streams
+  // Redirect user to list of streams - programmatic navigation
+  history.push("/");
 };
 
 export const getSetAllStreams = () => async (dispatch) => {
