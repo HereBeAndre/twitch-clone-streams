@@ -15,6 +15,7 @@ export const createStream = (formValues) => async (dispatch, getState) => {
 
   const res = await streams.post("/streams", { ...formValues, userId });
   dispatch({ type: types.SET_NEW_STREAM, payload: res.data });
+  // Redirect user to list of streams
 };
 
 export const getSetAllStreams = () => async (dispatch) => {
