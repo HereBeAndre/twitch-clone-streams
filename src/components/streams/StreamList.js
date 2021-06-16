@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getSetAllStreams } from "../../store/actions";
+import { Link } from "react-router-dom";
 
-const StreamList = ({ streams, currentUserId }) => {
+const StreamList = ({ streams, currentUserId, isUserSignedIn }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getSetAllStreams());
@@ -17,6 +18,18 @@ const StreamList = ({ streams, currentUserId }) => {
         </div>
       );
     }
+  };
+
+  const renderCreateStreamButton = () => {
+    return (
+      isUserSignedIn && (
+        <div style={{ textAlign: "right" }}>
+          <Link to="/streams/new" className="ui button primary">
+            Create Stream
+          </Link>
+        </div>
+      )
+    );
   };
 
   const renderStreamList = () => {
@@ -38,6 +51,7 @@ const StreamList = ({ streams, currentUserId }) => {
     <div>
       <h2>Streams</h2>
       <div className="ui celled list">{renderStreamList()}</div>
+      {renderCreateStreamButton()}
     </div>
   );
 };
@@ -46,6 +60,7 @@ const mapStateToProps = (state) => {
   return {
     streams: Object.values(state.streams),
     currentUserId: state.auth.userId,
+    isUserSignedIn: state.auth.isSignedIn,
   };
 };
 
