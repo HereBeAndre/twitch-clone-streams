@@ -31,6 +31,7 @@ export const getStream = (streamId) => async (dispatch) => {
 };
 
 export const setUpdateStream = (streamId, formValues) => async (dispatch) => {
+  console.log(streamId, formValues);
   const res = await streams.put(`/streams/${streamId}`, formValues);
   dispatch({ type: types.SET_UPDATE_STREAM, payload: res.data });
 };
