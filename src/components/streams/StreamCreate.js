@@ -25,7 +25,6 @@ const validateForm = (formValues) => {
 };
 
 const renderInput = (formProps) => {
-  console.log("meta", formProps.meta);
   const className = `field ${
     formProps.meta.touched && formProps.meta.touched && "error"
   }`;
