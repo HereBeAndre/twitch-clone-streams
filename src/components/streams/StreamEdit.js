@@ -1,13 +1,27 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { getStream } from "../../store/actions";
+import { getStream, setUpdateStream } from "../../store/actions";
+import StreamForm from "./StreamForm";
 
 const StreamEdit = (props) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getStream(props.match.params.id));
   }, []);
-  return props.stream ? <div>{props.stream.title}</div> : <div>Loading...</div>;
+
+  const onFormSubmit = (formValues) => {
+    dispatch(setUpdateStream(props.stream.id, formValues));
+  };
+
+  return props.stream ? (
+    <div>
+      <h3>Edit a Stream</h3>
+      <StreamForm initialValues={props.stream} onSubmit={onFormSubmit} />
+    </div>
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 // ownProps allows to pass props of component to Redux
@@ -17,4 +31,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, { getStream })(StreamEdit);
+export default connect(mapStateToProps, { getStream, setUpdateStream })(
+  StreamEdit
+);
