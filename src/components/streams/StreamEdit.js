@@ -17,7 +17,13 @@ const StreamEdit = (props) => {
   return props.stream ? (
     <div>
       <h3>Edit a Stream</h3>
-      <StreamForm initialValues={props.stream} onSubmit={onFormSubmit} />
+      <StreamForm
+        initialValues={{
+          title: props.stream.title,
+          description: props.stream.description,
+        }}
+        onSubmit={onFormSubmit}
+      />
     </div>
   ) : (
     <div>Loading...</div>
