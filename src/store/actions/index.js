@@ -40,4 +40,5 @@ export const setUpdateStream = (streamId, formValues) => async (dispatch) => {
 export const setDeleteStream = (streamId) => async (dispatch) => {
   await streams.delete(`/streams/${streamId}`);
   dispatch({ type: types.SET_DELETE_STREAM, payload: streamId });
+  history.push("/");
 };
