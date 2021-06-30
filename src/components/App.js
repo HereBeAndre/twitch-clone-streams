@@ -16,8 +16,8 @@ const App = () => {
       (BrowserRouter uses its own history and wouldn't accept custom history) */}
       <Router history={history}>
         {/* Switch forbids React to show multiple components when a URL seems to match another one */}
+        <Header />
         <Switch>
-          <Header />
           <Route path="/" exact component={StreamList} />
           <Route path="/streams/new" exact component={StreamCreate} />
           {/* Colon evaluates as variable */}
